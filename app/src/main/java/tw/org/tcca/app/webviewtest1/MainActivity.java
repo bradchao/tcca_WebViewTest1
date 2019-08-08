@@ -3,8 +3,10 @@ package tw.org.tcca.app.webviewtest1;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,10 +20,17 @@ public class MainActivity extends AppCompatActivity {
     private WebView webView;
     private static final int KEYCODE_BACK = 4;
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(false);
 
         webView = findViewById(R.id.webview);
         initWebView();
@@ -29,18 +38,49 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initWebView(){
-        WebViewClient client = new WebViewClient();
+        MyWebViewClient client = new MyWebViewClient();
         webView.setWebViewClient(client);
 
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
 
-        //webView.loadUrl("https://www.iii.org.tw");
+        //settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setUseWideViewPort(true);
+        settings.setLoadWithOverviewMode(true);
+
+
+        settings.setSupportZoom(true);
+        settings.setBuiltInZoomControls(true);
+        settings.setDisplayZoomControls(true);
+
+
+
+        //webView.loadUrl("https://www.pchome.com.tw");
 
         webView.loadUrl("file:///android_asset/brad.html");
 
         //String data = "<input type='text'><hr><select><option>item1</option><option>item1</option></select>";
         //webView.loadData(data, "text/html; charset=utf-8", null);
+
+    }
+
+    public void test2(View view) {
+
+        webView.loadUrl("javascript:test1(100)");
+    }
+
+    private class MyWebViewClient extends WebViewClient {
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+            progressDialog.show();
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            progressDialog.dismiss();
+        }
 
     }
 

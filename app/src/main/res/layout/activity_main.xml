@@ -25,12 +25,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Test2"
+            android:onClick="test2"
             />
     </LinearLayout>
     <WebView
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#ff0"
         />
 
 
