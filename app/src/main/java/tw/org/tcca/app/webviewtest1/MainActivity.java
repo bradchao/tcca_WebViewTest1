@@ -5,12 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 public class MainActivity extends AppCompatActivity {
     private WebView webView;
+    private static final int KEYCODE_BACK = 4;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
         WebViewClient client = new WebViewClient();
         webView.setWebViewClient(client);
 
-
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
 
         webView.loadUrl("https://www.iii.org.tw");
 
@@ -42,4 +48,22 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KEYCODE_BACK && webView.canGoBack()){
+            webView.goBack();
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        Log.v("brad", "onBackPress");
+//    }
+    
 }
