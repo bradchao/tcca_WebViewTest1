@@ -1,7 +1,9 @@
 package tw.org.tcca.app.webviewtest1;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,9 +35,9 @@ public class MainActivity extends AppCompatActivity {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
 
-        webView.loadUrl("https://www.iii.org.tw");
+        //webView.loadUrl("https://www.iii.org.tw");
 
-        //webView.loadUrl("file:///android_asset/brad.html");
+        webView.loadUrl("file:///android_asset/brad.html");
 
         //String data = "<input type='text'><hr><select><option>item1</option><option>item1</option></select>";
         //webView.loadData(data, "text/html; charset=utf-8", null);
@@ -50,20 +52,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KEYCODE_BACK && webView.canGoBack()){
-            webView.goBack();
-            return true;
-        }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KEYCODE_BACK && webView.canGoBack()){
+//            webView.goBack();
+//            return true;
+//        }
+//
+//        return super.onKeyDown(keyCode, event);
+//    }
 
-        return super.onKeyDown(keyCode, event);
+    @Override
+    public void onBackPressed() {
+        if (webView.canGoBack()){
+            webView.goBack();
+
+        }else{
+           new AlertDialog.Builder(this)
+                    .setMessage("Exit?")
+                   .setPositiveButton("Exit", new DialogInterface.OnClickListener() {
+                       @Override
+                       public void onClick(DialogInterface dialogInterface, int i) {
+                           finish();
+                       }
+                   })
+                   .setNegativeButton("no", null)
+                   .setCancelable(false)
+                   .create()
+                   .show();
+
+        }
+        //super.onBackPressed();
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        Log.v("brad", "onBackPress");
-//    }
-    
 }
