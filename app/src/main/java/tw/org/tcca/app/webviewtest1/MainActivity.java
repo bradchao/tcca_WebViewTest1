@@ -15,10 +15,12 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
     private WebView webView;
     private static final int KEYCODE_BACK = 4;
+    private EditText editN;
 
     private ProgressDialog progressDialog;
 
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        editN = findViewById(R.id.n);
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(false);
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void test2(View view) {
 
-        webView.loadUrl("javascript:test1(100)");
+        webView.loadUrl("javascript:test1(" + editN.getText().toString() + ")");
     }
 
     private class MyWebViewClient extends WebViewClient {
