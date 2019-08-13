@@ -86,7 +86,10 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onLocationChanged(Location location) {
-
+            double lat = location.getLatitude();
+            double lng = location.getLongitude();
+            Log.v("brad", lat + ", " + lng);
+            webView.loadUrl("javascript:setNewPos(" + lat + ", " + lng + ")");
         }
 
         @Override
@@ -125,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
         //webView.loadUrl("https://www.pchome.com.tw");
 
-        webView.loadUrl("file:///android_asset/brad.html");
+        webView.loadUrl("file:///android_asset/map.html");
 
         //String data = "<input type='text'><hr><select><option>item1</option><option>item1</option></select>";
         //webView.loadData(data, "text/html; charset=utf-8", null);
