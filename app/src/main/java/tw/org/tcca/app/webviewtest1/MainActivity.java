@@ -2,11 +2,19 @@ package tw.org.tcca.app.webviewtest1;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,10 +32,25 @@ public class MainActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
 
+
+    private LocationManager lmgr;
+    private MyListener listener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    1);
+        }else{
+
+        }
+
 
         editN = findViewById(R.id.n);
         progressDialog = new ProgressDialog(this);
@@ -37,6 +60,49 @@ public class MainActivity extends AppCompatActivity {
         webView = findViewById(R.id.webview);
         initWebView();
 
+        initLocation();
+    }
+
+    private void initLocation(){
+        lmgr = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        listener = new MyListener();
+        lmgr.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                1*1000,
+                10,listener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        lmgr.removeUpdates(listener);
+    }
+
+    private class MyListener implements LocationListener {
+
+        @Override
+        public void onLocationChanged(Location location) {
+
+        }
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String s) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String s) {
+
+        }
     }
 
     private void initWebView(){
