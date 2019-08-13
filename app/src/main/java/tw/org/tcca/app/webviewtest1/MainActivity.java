@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             progressDialog.dismiss();
+            Log.v("brad", url);
         }
 
     }
