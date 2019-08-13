@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -125,14 +126,22 @@ public class MainActivity extends AppCompatActivity {
         settings.setDisplayZoomControls(true);
 
 
+        webView.addJavascriptInterface(new MyJS(), "brad");
 
         //webView.loadUrl("https://www.pchome.com.tw");
 
-        webView.loadUrl("file:///android_asset/map.html");
+        webView.loadUrl("file:///android_asset/page2.html");
 
         //String data = "<input type='text'><hr><select><option>item1</option><option>item1</option></select>";
         //webView.loadData(data, "text/html; charset=utf-8", null);
 
+    }
+
+    public class MyJS{
+        @JavascriptInterface
+        public void callFromJS(){
+            Log.v("brad", "i got it");
+        }
     }
 
     public void test2(View view) {
