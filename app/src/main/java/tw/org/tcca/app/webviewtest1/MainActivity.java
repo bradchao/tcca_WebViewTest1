@@ -43,10 +43,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
+                Manifest.permission.CALL_PHONE)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    new String[]{Manifest.permission.CALL_PHONE},
                     1);
         }else{
 
@@ -139,9 +139,19 @@ public class MainActivity extends AppCompatActivity {
 
     public class MyJS{
         @JavascriptInterface
-        public void callFromJS(){
-            Log.v("brad", "i got it");
+        public void callFromJS(String urname){
+            Log.v("brad", urname);
+
+            callPhone(urname);
+
         }
+    }
+
+
+    private void callPhone(String tel){
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        intent.setData(Uri.parse("tel:" + tel));
+        startActivity(intent);
     }
 
     public void test2(View view) {
